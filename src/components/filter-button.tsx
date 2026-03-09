@@ -29,7 +29,7 @@ export function FilterButton({
           <Filter />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" >
+      <SheetContent side="left" specialOverlay>
         <SheetHeader className="p-0 pt-2 px-4">
           <SheetTitle>{title}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>

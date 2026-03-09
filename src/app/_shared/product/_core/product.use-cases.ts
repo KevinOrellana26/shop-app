@@ -1,13 +1,17 @@
 import {
   getCategoryList,
-  getProducts,
-  searchProduct,
-} from "./product.services";
+  getProducts, getProductsByCategory, searchProduct
+} from './product.services';
 
 export const getCategoryListUseCase = async () => {
   const response = await getCategoryList();
   return response;
 };
+
+export const getProductsByCategoryUseCase = async (category?: string) => {
+  const response = await getProductsByCategory(category);
+  return response;
+}
 
 export const getProductsUseCase = async () => {
   //! TODO: implementar get cacheados despúes

@@ -1,5 +1,6 @@
 import {
   getProductsUseCase,
+  getProductsByCategoryUseCase,
   searchProductUseCase,
 } from "@/src/app/_shared/product/_core/product.use-cases";
 import { CardGrid } from "@/src/components/card-grid";
@@ -9,12 +10,16 @@ import ProductCard, { ProductCardSkeleton } from "./ProductCard";
 
 type ProductListProps = {
   query?: string;
+  category?: string;
 };
 
-export default async function ProductList({ query }: ProductListProps) {
+export default async function ProductList({ query, category }: ProductListProps) {
   const [productsResponse, productsError] = await handleAsync(async () => {
+    // Prioridad: 1. query (búsqueda), 2. category (filtro), 3. todos
     if (query) {
       return await searchProductUseCase(query);
+    } else if (category) {
+      return await getProductsByCategoryUseCase(category);
     } else {
       return await getProductsUseCase();
     }
