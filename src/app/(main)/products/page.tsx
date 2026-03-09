@@ -37,7 +37,6 @@ export default async function ProductPage(props: ProductPageProps) {
       <Suspense key={`${query}-${category}-${page}`} fallback={<ProductListSkeleton />}>
         <ProductList query={query} category={category} page={page} limit={limit}/>
       </Suspense>
-      {/* )} */}
     </main>
   );
 }
