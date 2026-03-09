@@ -15,5 +15,7 @@ export const DEFAULT_SEARCH_PARAMS_OPTIONS = {
 
 export const PARAMS = {
   query: "query",
-  category: "category"
+  category: "category",
+  page: "page",
+  limit: "limit",
 }as const;

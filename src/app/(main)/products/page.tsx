@@ -14,7 +14,7 @@ type ProductPageProps = {
 
 export default async function ProductPage(props: ProductPageProps) {
   const searchParams = await props.searchParams;
-  const { query, category } = productSearchParmsCache.parse(searchParams);
+  const { query, category, page, limit } = productSearchParmsCache.parse(searchParams);
 
   const [categoryResponse, categoryError] = await handleAsync(() =>
     getCategoryListUseCase(),
@@ -34,8 +34,8 @@ export default async function ProductPage(props: ProductPageProps) {
           <ProductFilter category={categories} />
         </FilterButton>
       </Navbar>
-      <Suspense key={`${query}-${category}`} fallback={<ProductListSkeleton />}>
-        <ProductList query={query} category={category} />
+      <Suspense key={`${query}-${category}-${page}`} fallback={<ProductListSkeleton />}>
+        <ProductList query={query} category={category} page={page} limit={limit}/>
       </Suspense>
       {/* )} */}
     </main>

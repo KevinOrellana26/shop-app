@@ -10,19 +10,32 @@ export const getCategoryList = async () => {
   return categoryData;
 };
 
-export const getProducts = async () => {
+// limit: número de items por página.
+// skip: cuantos items saltar (ej: si estás en página 2 con limit 10, skip = 10).
+// total: total de productos disponibles (para calcular total de páginas).
+// skip = (pagina_actual - 1) * limit
+export const getProducts = async (limit?: number, skip?: number) => {
   // await new Promise((resolve) => setTimeout(resolve, 50000)); // Simula un retraso de 1 segundo
-  const apiUrl = `https://dummyjson.com/products`;
+  const params = new URLSearchParams();
+  limit && params.append("limit", limit.toString());
+  skip && params.append("skip", skip.toString());
+
+  const apiUrl = `https://dummyjson.com/products?${params.toString()}`;
   const response = await callApi<ProductsT>(apiUrl, "GET");
 
   return response;
 };
 
-export const searchProduct = async (query?: string) => {
+export const searchProduct = async (
+  query?: string,
+  limit?: number,
+  skip?: number,
+) => {
   const params = new URLSearchParams();
-  if (query) {
-    params.append("q", query);
-  }
+  query && params.append("q", query);
+  limit && params.append("limit", limit.toString());
+  skip && params.append("skip", skip.toString());
+
   const apiUrl = `https://dummyjson.com/products/search?${params.toString()}`;
   const response = await callApi<ProductsT>(apiUrl, "GET");
 
@@ -32,8 +45,15 @@ export const searchProduct = async (query?: string) => {
   return response;
 };
 
-export const getProductsByCategory = async (category?: string) => {
-  const apiUrl = `https://dummyjson.com/products/category/${category}`;
+export const getProductsByCategory = async (
+  category?: string,
+  skip?: number,
+  limit?: number,
+) => {
+  const params = new URLSearchParams();
+  skip && params.append("skip", skip.toString());
+  limit && params.append("limit", limit.toString());
+  const apiUrl = `https://dummyjson.com/products/category/${category}?${params.toString()}`;
   const response = await callApi<ProductsT>(apiUrl, "GET");
   return response;
 };
