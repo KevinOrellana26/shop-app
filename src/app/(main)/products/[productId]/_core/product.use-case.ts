@@ -1,6 +1,6 @@
-import { getProduct } from "./product.services";
+import { getProductById } from "./product.services";
 
-export const getProductUseCase = async (productId: string) => {
-  const response = await getProduct(Number(productId));
+export const getProductByIdUseCase = async (productId: string) => {
+  const response = await getProductById(Number(productId));
   return response;
 };

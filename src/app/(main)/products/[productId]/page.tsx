@@ -1,7 +1,7 @@
 import { handleAsync } from "@/src/lib/error";
 import { notFound } from "next/navigation";
 import ProductCard from "./_components/ProductCard";
-import { getProductUseCase } from "./_core/product.use-case";
+import { getProductByIdUseCase } from "./_core/product.use-case";
 
 type ProductPageProps = {
   params: Promise<{ productId: string }>;
@@ -16,7 +16,7 @@ export default async function ProductPage(props: ProductPageProps) {
   }
 
   const [productResponse, productError] = await handleAsync(() =>
-    getProductUseCase(productId),
+    getProductByIdUseCase(productId),
   );
 
   const product = productResponse;
