@@ -21,7 +21,7 @@ export function ReviewCard({
   });
 
   return (
-    <Card>
+    <Card className="transition-all duration-300 hover:scale-101 hover:shadow-lg py-4 gap-1 w-full max-h-full">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
           <div>

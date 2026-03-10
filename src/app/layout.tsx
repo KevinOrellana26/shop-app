@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
 import ThemeProvider from "@/src/components/theme-provider";
+import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 
@@ -32,6 +32,12 @@ export default function RootLayout({
           className={`${poppins.variable} antialiased`}
           suppressHydrationWarning
         >
+          <NextTopLoader
+            color="#2563eb"
+            height={4}
+            showAtBottom={true}
+            shadow={false}
+          />
           <ThemeProvider
             attribute="class"
             defaultTheme="light"

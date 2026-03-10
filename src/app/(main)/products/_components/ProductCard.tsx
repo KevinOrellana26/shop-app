@@ -8,11 +8,12 @@ import {
   CardFooter,
   CardHeader,
 } from "@/src/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
-import ProductRating from "./ProductRating";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { Star } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { useRouter } from "nextjs-toploader/app";
+import ProductRating from "./ProductRating";
 
 type ProductCardProps = {
   product: ProductT;
@@ -32,57 +33,63 @@ export default function ProductCard({ product }: ProductCardProps) {
   } = product;
   const discountedPrice = price - (price * discountPercentage) / 100;
 
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = () => {
+    // setIsLoading(true);
+    router.push(`/products/${product.id}`);
+  };
+
   return (
-    <Link
-      href={`/products/${product.id}`}
-      className="group block w-full max-h-full"
+    <Card
+      className="transition-all duration-300 hover:scale-102 hover:shadow-lg py-0 gap-6 w-full max-h-full"
+      onClick={handleClick}
     >
-      <Card className="transition-all duration-300 hover:scale-102 hover:shadow-lg py-0 gap-6">
-        <CardHeader className="relative p-0">
-          <div className="relative aspect-square overflow-hidden">
-            <Image
-              fill
-              src={thumbnail}
-              alt={title}
-              priority={true}
-              // -> En móvil ocupa todo el ancho, en tablet la mitad, y en PC una cuarta parte
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              className="object-contain transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-          {discountPercentage > 0 && (
-            <Badge className="absolute right-2 top-2 bg-black hover:bg-zinc-800 text-white border-none">
-              -{Math.round(discountPercentage)}%
-            </Badge>
-          )}
-        </CardHeader>
-        <CardContent className="flex flex-col gap-2 px-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            {brand && <span className="font-medium">{brand} • </span>}
-            <span>{category}</span>
-          </div>
-          <h3 className="line-clamp-2 text-balance font-semibold leading-tight">
-            {title}
-          </h3>
-          <ProductRating rating={rating} size="sm" />
-        </CardContent>
-        <CardFooter className="justify-between px-4 pb-4">
-          <div className="flex items-baseline gap-2">
-            <span className="text-xl font-bold">
-              €{discountedPrice.toFixed(2)}
-            </span>
-            {discountPercentage > 0 && (
-              <span className="text-sm text-muted-foreground line-through">
-                €{price.toFixed(2)}
-              </span>
-            )}
-          </div>
-          <Badge variant={stock > 0 ? "secondary" : "destructive"}>
-            {availabilityStatus}
+      <CardHeader className="relative p-0">
+        <div className="relative aspect-square overflow-hidden">
+          <Image
+            fill
+            src={thumbnail}
+            alt={title}
+            priority={true}
+            // -> En móvil ocupa todo el ancho, en tablet la mitad, y en PC una cuarta parte
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            className="object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+        {discountPercentage > 0 && (
+          <Badge className="absolute right-2 top-2 bg-black hover:bg-zinc-800 text-white border-none">
+            -{Math.round(discountPercentage)}%
           </Badge>
-        </CardFooter>
-      </Card>
-    </Link>
+        )}
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2 px-4">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          {brand && <span className="font-medium">{brand} • </span>}
+          <span>{category}</span>
+        </div>
+        <h3 className="line-clamp-2 text-balance font-semibold leading-tight">
+          {title}
+        </h3>
+        <ProductRating rating={rating} size="sm" />
+      </CardContent>
+      <CardFooter className="justify-between px-4 pb-4">
+        <div className="flex items-baseline gap-2">
+          <span className="text-xl font-bold">
+            €{discountedPrice.toFixed(2)}
+          </span>
+          {discountPercentage > 0 && (
+            <span className="text-sm text-muted-foreground line-through">
+              €{price.toFixed(2)}
+            </span>
+          )}
+        </div>
+        <Badge variant={stock > 0 ? "secondary" : "destructive"}>
+          {availabilityStatus}
+        </Badge>
+      </CardFooter>
+    </Card>
   );
 }
 
@@ -114,7 +121,10 @@ export function ProductCardSkeleton() {
         {/* Estrellas de Rating */}
         <div className="flex gap-1 mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className="h-4 w-4 rounded-full text-muted-foreground/25" />
+            <Star
+              key={i}
+              className="h-4 w-4 rounded-full text-muted-foreground/25"
+            />
           ))}
         </div>
       </CardContent>
