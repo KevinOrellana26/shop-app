@@ -1,0 +1,25 @@
+-- CreateTable
+CREATE TABLE "Product" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
+    "price" REAL NOT NULL,
+    "discountPercentage" REAL NOT NULL,
+    "rating" REAL NOT NULL,
+    "stock" INTEGER NOT NULL,
+    "tags" TEXT NOT NULL,
+    "brand" TEXT NOT NULL,
+    "sku" TEXT NOT NULL,
+    "weight" REAL NOT NULL,
+    "dimensions" TEXT NOT NULL,
+    "warrantyInformation" TEXT NOT NULL,
+    "shippingInformation" TEXT NOT NULL,
+    "availabilityStatus" TEXT NOT NULL,
+    "reviews" TEXT NOT NULL,
+    "returnPolicy" TEXT NOT NULL,
+    "minimumOrderQuantity" REAL NOT NULL,
+    "meta" TEXT NOT NULL,
+    "thumbnail" TEXT NOT NULL,
+    "images" TEXT NOT NULL
+);

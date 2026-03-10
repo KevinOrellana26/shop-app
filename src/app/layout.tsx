@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
+import { Toaster } from "../components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
           className={`${poppins.variable} antialiased`}
           suppressHydrationWarning
         >
+          <Toaster />
           <NextTopLoader
             color="#2563eb"
             height={4}

@@ -24,6 +24,11 @@ export const getProducts = async (
   const params = new URLSearchParams();
   params.append("limit", limit.toString());
   params.append("skip", skip.toString());
+  // Filtramos solo los campos necesarios para la lista de productos, para optimizar la carga
+  params.append(
+    "select",
+    "discountPercentage,title,brand,category,rating,price,stock,availabilityStatus,images",
+  );
 
   // Si hay búsqueda por query param
   if (query) {

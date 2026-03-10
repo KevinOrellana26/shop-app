@@ -10,17 +10,17 @@ export type DimensionsT = z.infer<typeof DimensionsSchema>;
 export const ReviewSchema = z.object({
   rating: z.number(),
   comment: z.string(),
-  date: z.date(),
+  date: z.coerce.date(),
   reviewerName: z.string(),
-  reviewerEmail: z.email(),
+  reviewerEmail: z.string().email(),
 });
 export type ReviewT = z.infer<typeof ReviewSchema>;
 
 export const MetaSchema = z.object({
-  createdAt: z.string(),
-  updateAt: z.string(),
-  barcode: z.string(),
-  qrCode: z.string(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+  barcode: z.string().optional(),
+  qrCode: z.string().optional(),
 });
 export type MetaT = z.infer<typeof MetaSchema>;
 
@@ -34,7 +34,7 @@ export const ProductSchema = z.object({
   rating: z.number(),
   stock: z.number(),
   tags: z.array(z.string()),
-  brand: z.string(),
+  brand: z.string().optional().nullable(),
   sku: z.string(),
   weight: z.number(),
   dimensions: DimensionsSchema,

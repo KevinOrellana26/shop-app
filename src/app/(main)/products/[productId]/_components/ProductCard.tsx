@@ -1,12 +1,17 @@
 "use client";
 
 import { ProductT } from "@/src/app/_shared/product/_core/product.definitions";
+import { DevDebug } from "@/src/components/debug/dev-debug";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
+import { Spinner } from "@/src/components/ui/spinner";
 import { ArrowLeft, Package, Shield, ShoppingCart, Truck } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
+import { toast } from "sonner";
+import { useServerAction } from "zsa-react";
 import ProductRating from "../../_components/ProductRating";
+import { addToCartDbAction } from "../action";
 import ProductImageCarousel from "./ProductImageCarousel";
 import ProductServiceCard from "./ProductServiceCard";
 import { ReviewCard } from "./ReviewCard";
@@ -43,9 +48,23 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const discountedPrice = price - (price * discountPercentage) / 100;
 
+  const { isPending, execute } = useServerAction(addToCartDbAction, {
+    onSuccess: ({ data }) => {
+      toast.success(data);
+    },
+    onError: ({ err }) => {
+      toast.error(err.message || "Error al añadir al carrito");
+    },
+  });
+
+  const handleAddToCart = () => {
+    execute(product);
+  };
+
   const router = useRouter();
   return (
     <>
+      <DevDebug data={product} />
       <Button
         onClick={() => router.push("/products")}
         className="text-sm gap-1 items-center text-muted-foreground transition-colors hover:text-foreground flex flex-row cursor-pointer hover:underline hover:underline-offset-2"
@@ -134,10 +153,15 @@ export default function ProductCard({ product }: ProductCardProps) {
             <Button
               variant={"default"}
               className="w-full cursor-pointer"
-              disabled={stock === 0}
+              disabled={stock === 0 || isPending}
+              onClick={handleAddToCart}
             >
               {stock > 0 ? "Añadir al carrito" : "Sin stock"}
-              <ShoppingCart className="size-4" />
+              {isPending ? (
+                <Spinner className="size-4" />
+              ) : (
+                <ShoppingCart className="size-4" />
+              )}
             </Button>
           </div>
         </div>

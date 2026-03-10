@@ -11,8 +11,8 @@ import {
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { Star } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 import { useRouter } from "nextjs-toploader/app";
+import { useState } from "react";
 import ProductRating from "./ProductRating";
 
 type ProductCardProps = {
@@ -23,13 +23,13 @@ export default function ProductCard({ product }: ProductCardProps) {
   const {
     discountPercentage,
     title,
-    thumbnail,
     brand,
     category,
     rating,
     price,
     stock,
     availabilityStatus,
+    images,
   } = product;
   const discountedPrice = price - (price * discountPercentage) / 100;
 
@@ -50,7 +50,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="relative aspect-square overflow-hidden">
           <Image
             fill
-            src={thumbnail}
+            src={images[0]}
             alt={title}
             priority={true}
             // -> En móvil ocupa todo el ancho, en tablet la mitad, y en PC una cuarta parte

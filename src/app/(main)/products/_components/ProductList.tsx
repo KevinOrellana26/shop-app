@@ -1,5 +1,6 @@
 import { getProductsUseCase } from "@/src/app/_shared/product/_core/product.use-cases";
 import { CardGrid } from "@/src/components/card-grid";
+import { DevDebug } from "@/src/components/debug/dev-debug";
 import ErrorLabel from "@/src/components/error-label";
 import { handleAsync } from "@/src/lib/error";
 import ProductCard, { ProductCardSkeleton } from "./ProductCard";
@@ -37,6 +38,7 @@ export default async function ProductList({
 
   return (
     <>
+      <DevDebug data={products} />
       <CardGrid cols={4}>
         {products.map((product) => (
           <ProductCard product={product} key={product.id} />
