@@ -1,9 +1,13 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// generator client {
+//   provider = "prisma-client"
+//   output   = "../generated/prisma"
+// }
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider        = "prisma-client" // Asegúrate de que termine en -js
+  output          = "../generated/prisma"
 }
 
 datasource db {
@@ -11,29 +15,11 @@ datasource db {
 }
 
 model Product {
-  id                   Int    @id
-  title                String
-  description          String
-  category             String
-  price                Float
-  discountPercentage   Float
-  rating               Float
-  stock                Int
-  tags                 String
-  brand                String
-  sku                  String
-  weight               Float
-  dimensions           String
-  warrantyInformation  String
-  shippingInformation  String
-  availabilityStatus   String
-  reviews              String
-  returnPolicy         String
-  minimumOrderQuantity Float
-  meta                 String
-  thumbnail            String
-  images               String
+  id        Int    @id @default(autoincrement())
+  productId Int
+  title     String
+  price     Float
+  quantity  Int
+  thumbnail String
+  stock     Int? //Opcional: para validar que no se pida más de lo que hay en stock
 }
-
-// Para que funcione en SQLite, tienes que cambiar los arrays y objetos JSON a tipo String. 
-// Luego, en tu código de JavaScript/TypeScript, usarás JSON.stringify() al guardar y JSON.parse() al leer.

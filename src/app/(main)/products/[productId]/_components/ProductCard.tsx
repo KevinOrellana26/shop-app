@@ -1,7 +1,6 @@
 "use client";
 
 import { ProductT } from "@/src/app/_shared/product/_core/product.definitions";
-import { DevDebug } from "@/src/components/debug/dev-debug";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
@@ -57,14 +56,25 @@ export default function ProductCard({ product }: ProductCardProps) {
     },
   });
 
-  const handleAddToCart = () => {
-    execute(product);
+  const handleAddToCart = (product: ProductT) => {
+    const newValues = {
+      productId: product.id,
+      title: product.title,
+      price: product.price,
+      thumbnail: product.images[0] || product.thumbnail,
+      stock: product.stock,
+      quantity: 1,
+    };
+
+    console.log("Añadiendo al carrito:", { newValues });
+
+    execute(newValues);
   };
 
   const router = useRouter();
   return (
     <>
-      <DevDebug data={product} />
+      {/* <DevDebug data={product} /> */}
       <Button
         onClick={() => router.push("/products")}
         className="text-sm gap-1 items-center text-muted-foreground transition-colors hover:text-foreground flex flex-row cursor-pointer hover:underline hover:underline-offset-2"
@@ -154,7 +164,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               variant={"default"}
               className="w-full cursor-pointer"
               disabled={stock === 0 || isPending}
-              onClick={handleAddToCart}
+              onClick={() => handleAddToCart(product)}
             >
               {stock > 0 ? "Añadir al carrito" : "Sin stock"}
               {isPending ? (
